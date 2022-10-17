@@ -7,7 +7,7 @@ part 'course.g.dart';
 @Collection()
 class Course {
   Id id = isarAutoIncrementId;
-  late String title;
+  late String title; //course name
 
   @Backlink(to: "course")
   final teacher = IsarLink<Teacher>();
