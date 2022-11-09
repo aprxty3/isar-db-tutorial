@@ -10,6 +10,17 @@ class IsarService {
     db = openDB();
   }
 
+  Future<Isar> openDB() async {
+    if (Isar.instanceNames.isEmpty) {
+      return await Isar.open(
+        [CourseSchema, StudentSchema, TeacherSchema],
+        inspector: true,
+      );
+    }
+
+    return Future.value(Isar.getInstance());
+  }
+
   Future<void> saveCourse(Course newCourse) async {
     final isar = await db;
     isar.writeTxnSync<int>(() => isar.courses.putSync(newCourse));
@@ -59,14 +70,4 @@ class IsarService {
     return teacher;
   }
 
-  Future<Isar> openDB() async {
-    if (Isar.instanceNames.isEmpty) {
-      return await Isar.open(
-        [CourseSchema, StudentSchema, TeacherSchema],
-        inspector: true,
-      );
-    }
-
-    return Future.value(Isar.getInstance());
-  }
 }
